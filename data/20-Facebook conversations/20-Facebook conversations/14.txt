@@ -1,0 +1,45 @@
+
+
+
+Chat Conversation Start
+
+ 
+U1: Hi, I checked our courses and ask our friends about them to see if any one took them before and good news I found a lot and many are willing to give us their notes about a lot of courses you sent my friend and in general most student recommend those courses but their details are confusing me what do you think  
+SYS 5110 Foundation of Modelling and Simulation (3 units)
+Fundamental aspects of systems modelling and the simulation process. Elements of continuous system simulation. Issues relating to the numerical solution of ordinary differential equations. Elements of discrete event simulation Generation of random numbers and variates. Simulation validation and quality assurance. Introduction to simulation languages. Course Component: Lecture The following courses are recommended as prerequisites: CSI 1100, MAT 2341, (MAT 2324 or MAT 2331), MAT 2371, MAT 2375.
+SYS 5130 Systems Optimization and Management (3 units)
+Analysis of user requirements and model design. Data mining. Use of optimization software. Systems thinking and its application to economic systems and hierarchical systems. Applications to economic systems simulation, modeling, optimization and management. Course Component: Lecture The following courses are recommended as prerequisites: CSI 1100, MAT 2341, (MAT 2324 or MAT 2331), MAT 2371, MAT 2375.
+SYS 5140 Economic System Design (3 units)
+Introduction to the epistemology of systems thinking and its application to economic systems. Basic concepts of complex systems thinking including hierarchical systems and economic systems simulation and behaviour. Soft systems thinking. Examples from other fields of application will be reviewed from an interdisciplinary perspective. Course Component: Lecture
+The following courses are recommended as prerequisites: CSI 1100, MAT 2341, (MAT 2324 or MAT 2331), MAT 2371, MAT 2375.
+SYS 5160 Systems Integration (3 units)
+Planning, design of complex systems from continuous to discrete time. Synthesis of systems methodology. State estimation. Parameters identification. Discretization and stochastic effects. Dynamic, logic control. Modelling, discrete event, simulation examples. Course Component: Lecture Prerequisites: 6 course units from SYS 5100, SYS 5110, SYS 5120, SYS 5130, SYS 5140.
+ELG 5100 Software Engineering Project Management (3 units)
+Software system engineering and organization methods; work breakdown structure and task determination; effort, duration and cost estimation; scheduling and planning. Monitoring and control; analysis of options; management of risks, change, and expectations. Process and product metrics, post-performance analysis, process improvement and maturity. Management of Agile Programming methodologies such as Extreme Programming. Case studies. This course is equivalent to EACJ 5200 at Carleton University. Course Component: Lecture
+ELG 5103 Optical Communications Systems (3 units)
+Optical communication system concepts and basic characteristics. Optical Transmitters. Optical detection. Optical noise sources and their mathematical models. Non-coherent (direct) detection: system model, direct detection of intensity modulation, application of photo-multiplication, optimal post-detection processing, and subcarrier systems. Coherent detection: heterodyne receivers, the field matching problem and receiver performance. Optical binary digital system, single-mode binary and heterodyne binary systems. Block coded digital optical communication systems: PPM, PAM, PSK, and FSK signalling. Integration of device technology and system architecture. Selected topics in optical communications and networking. This course is equivalent to EACJ 5201 at Carleton University. Course Component: Lecture
+ELG 5104 Electromagnetic Waves Theory and Applications (3 units)
+The homogeneous wave equation. Uniform and nonuniform plane waves. Inhomogeneous wave equations. Green's functions. Theory of potentials. Scattering problems. Numerical methods. Boundary value problems. Perturbation and variational techniques. This course is equivalent to EACJ 5401 at Carleton University. Course Component: Lecture
+ELG 5106 Fourier Optics (3 units)
+Diffraction: Plane waves expansions, angular spectra, 2D Fourier transform, scalar and vector diffraction theory, Fresnel and Fraunhofer diffraction, coherence. Linear optical systems: Thin lenses, Gaussian beam optics, transmission functions, linear systems theory, imaging, transfer functions, aberration. Applications: Holography, diffractive optics, gratings, optical correlation. This course is equivalent to EACJ 5003 at Carleton University. Course Component: Lecture
+ELG 5107 Semiconductor Optical Logic (3 units)
+Principles of Optical Amplification. Structures of Semiconductor Optical Amplifier (SOA). Steady-state model of SOA. Dynamic model of SOA. Network Applications of SOAs. SOA Nonlinearities. SOA Wavelength Converters. SOA optical gates. SOA Logic Devices. Optical Memory Devices. SOA based signal regeneration. Precludes additional credit for this course taken as a special topic in (EACJ 5807) ELG 7186. Course Component: Lecture
+ELG 5108 Electromagnetic Compatibility and Interference (3 units)
+Interference phenomena. Shielding of conductors. Grounding. Other noise reduction techniques. EMI filters. Noise sources: narrowband and broadband. Electromagnetic pulse as an interference source. Modelling EMI/C circuit boards and backplanes. This course is equivalent to EACJ 5305 at Carleton University. Course Component: Lecture
+ELG 5113 Stochastic Systems (3 units)
+Systems Management (3 units)
+Analysis of user requirements and model design. Data mining. Use of optimization software. Systems thinking and its application to economic systems and hierarchical systems. Applications to economic systems simulation, modeling, optimization and management. Course Component: Lecture The following courses are recommended as prerequisites: CSI 1100, MAT 2341, (MAT 2324 or MAT 2331), MAT 2371, MAT 2375.
+Wiener processes. Stochastic Wiener-Ito integrals. Stochastic integrals with respect to Poisson measures. Stochastic differentials. Diffusion processes. Ito-stochastic differential equations: existence and uniqueness of solutions, continuous dependence of solutions to parameters. Semigroup theory. Generation of semigroups applied to stochastic differential equations. Applications to engineering systems modelling. This course is equivalent to EACJ 5106 at Carleton University. Course Component: Lecture
+ELG 5119 Stochastic Processes (3 units)
+Probability. Random variables. Distribution and density functions. Expectation. Functions of random variables. Moments and characteristic functions. Random vectors. Sequences of random variables and convergence. Limit theorems. Stochastic processes: basic notions. Stationarity. Ergodicity. Poisson and Gaussian processes. Second order processes. Representation theorems. Markov processes and chains. Courses ELG 5119, ELG 6153 (SYSC 5503) cannot be combined for units. 
+Software Engineering Project Management (3 units)
+Software system engineering and organization methods; work breakdown structure and task determination; effort, duration and cost estimation; scheduling and planning. Monitoring and control; analysis of options; management of risks, change, and expectations. Process and product metrics, post-performance analysis, process improvement and maturity. Management of Agile Programming methodologies such as Extreme Programming. Case studies. This course is equivalent to EACJ 5200 at Carleton University. Course Component: Lecture
+ 
+
+
+
+U2: thanks for asking them it will be really hard if we register without asking other student who started their courses before us, and I prefer to take 5 courses from them and also check about professors they teach those courses most of them are good and nice with their student and I will send you some notes that one of my sister friend sent to her about our program and it is good organized and clear to read and follow with my friend lets meet this week if you are ok   
+
+
+Chat Conversation End
+
