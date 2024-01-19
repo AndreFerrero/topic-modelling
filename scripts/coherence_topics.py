@@ -1,6 +1,6 @@
 from gensim.models import LdaModel, LsiModel, CoherenceModel
 from sklearn.decomposition import NMF, PCA
-from sklearn.random_projection import SparseRandomProjection
+from sklearn.random_projection import GaussianRandomProjection
 from scipy import sparse
 import numpy as np
 
@@ -26,15 +26,13 @@ def coherence_topics(model_name: str, corpus, dictionary, texts, feature_names, 
             
             if model_name == 'NMF':
                 
-                model = NMF(n_components=i, random_state=42, max_iter=600).fit(tfidf)
-            
+                model = NMF(n_components=i, random_state=1, max_iter=600).fit(tfidf)
+                
             elif model_name == 'RP':
                 
-                model = SparseRandomProjection(n_components=i, random_state=42).fit(tfidf)
-            
-            topics = [list(zip(feature_names, weights)) for weights in model.components_]
+                model = GaussianRandomProjection(n_components=i, random_state=1).fit(tfidf)
                 
-            if model_name == 'PCA':
+            elif model_name == 'PCA':
                 # Convert sparse matrix to dense. PCA cannot be done on sparse matrixes
                 tfidf_matrix_dense = tfidf.todense() if sparse.issparse(tfidf) else tfidf
 
@@ -42,13 +40,12 @@ def coherence_topics(model_name: str, corpus, dictionary, texts, feature_names, 
                 tfidf_matrix_array = np.asarray(tfidf_matrix_dense)
                 
                 model = PCA(n_components=i).fit(tfidf_matrix_array)
-                loadings = model.components_
                 
-                # Retrieve top words for each component
-                topics = []
-                for j, component in enumerate(loadings):
-                    component_words = [(feature_names[k], component[k]) for k in component.argsort()[::-1]]
-                    topics.append(component_words)
+            # Retrieve top words for each component
+            topics = []
+            for j, component in enumerate(model.components_):
+                component_words = [(feature_names[k], component[k]) for k in component.argsort()[::-1]]
+                topics.append(component_words)
                 
             topics_for_coherence = [[word for word, _ in topic] for topic in topics]
             
