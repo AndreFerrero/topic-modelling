@@ -38,8 +38,12 @@ def coherence_topics(model_name: str, corpus, dictionary, texts, feature_names, 
 
                 # Convert to numpy array
                 tfidf_matrix_array = np.asarray(tfidf_matrix_dense)
+
+                # Centering
+                mean_tfidf = np.mean(tfidf_matrix_array, axis=0)  # Calculate the mean of each column
+                centered_tfidf_matrix = tfidf_matrix_array - mean_tfidf
                 
-                model = PCA(n_components=i).fit(tfidf_matrix_array)
+                model = PCA(n_components=i).fit(centered_tfidf_matrix)
                 
             # Retrieve top words for each component
             topics = []
