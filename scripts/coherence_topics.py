@@ -17,7 +17,7 @@ def coherence_topics(model_name: str, corpus, dictionary, texts, feature_names, 
                                 alpha='symmetric', eta='auto', passes=5, random_state=1)
         
             elif model_name == 'LSA':
-                model = LsiModel(corpus, id2word=dictionary, num_topics=i)
+                model = LsiModel(corpus, id2word=dictionary, num_topics=i, random_seed=1)
             
             coherence_value = CoherenceModel(model=model, dictionary = dictionary, texts=texts, coherence='c_v').get_coherence()
             coherence.append(coherence_value)
@@ -43,7 +43,7 @@ def coherence_topics(model_name: str, corpus, dictionary, texts, feature_names, 
                 mean_tfidf = np.mean(tfidf_matrix_array, axis=0)  # Calculate the mean of each column
                 centered_tfidf_matrix = tfidf_matrix_array - mean_tfidf
                 
-                model = PCA(n_components=i).fit(centered_tfidf_matrix)
+                model = PCA(n_components=i, random_state=1).fit(centered_tfidf_matrix)
                 
             # Retrieve top words for each component
             topics = []
