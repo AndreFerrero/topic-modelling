@@ -80,7 +80,8 @@ def preprocess(doc):
 
     # Lemmatize tokens
     lemmatizer = WordNetLemmatizer()
-    lemmatized_tokens = [lemmatizer.lemmatize(token, tag_map.get(pos[0], wordnet.NOUN)) for token, pos in pos_tags]
+    # .get() returns value associated to keyname. If keyname is not a key, it returns what's specified in value
+    lemmatized_tokens = [lemmatizer.lemmatize(token, tag_map.get(keyname = pos[0], value = wordnet.NOUN)) for token, pos in pos_tags]
     
     
     # Filter stopwords out of lemmatized tokens
