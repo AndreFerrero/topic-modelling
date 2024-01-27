@@ -2,8 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim import corpora, matutils
 from nltk.tokenize import word_tokenize
 
-def get_tfidf_tokendocs_corpus_dict(df, max_df, min_df, max_features):
-                    #0.5, 5, 5000
+def get_tfidf_tokendocs_corpus_dict(df, max_df, min_df, max_features): #0.5, 5, 5000
     # convert text into lists
     documents = df['Clean_Content'].tolist()
     documents
