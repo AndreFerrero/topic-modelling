@@ -81,7 +81,7 @@ def preprocess(doc):
     # Lemmatize tokens
     lemmatizer = WordNetLemmatizer()
     # .get() returns value associated to keyname. If keyname is not a key, it returns what's specified in value
-    lemmatized_tokens = [lemmatizer.lemmatize(token, tag_map.get(keyname = pos[0], value = wordnet.NOUN)) for token, pos in pos_tags]
+    lemmatized_tokens = [lemmatizer.lemmatize(token, tag_map.get(pos[0], wordnet.NOUN)) for token, pos in pos_tags]
     
     
     # Filter stopwords out of lemmatized tokens
@@ -118,7 +118,7 @@ def check_empty_docs(df):
     else:
         print("No empty documents found.")
 
-path = R"C:\Users\sofch\Python\PR1.20\PR1.20\data\data-train"
+path = R"C:\Users\andre\OneDrive - Alma Mater Studiorum Università di Bologna\University\UniBo\Machine Learning\PR1.20\data\data-train"
 
 df = import_data(path)
 
