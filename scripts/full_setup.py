@@ -118,7 +118,11 @@ def check_empty_docs(df):
     else:
         print("No empty documents found.")
 
+<<<<<<< HEAD
 path = R"C:\Users\sofch\Python\PR1.20\data\data-train"
+=======
+path = R"C:\Users\andre\OneDrive - Alma Mater Studiorum Università di Bologna\University\UniBo\Machine Learning\PR1.20\data\data-train"
+>>>>>>> 2760b6a53bd01d96139755f1d0d91d99a6e96cc4
 
 df = import_data(path)
 
