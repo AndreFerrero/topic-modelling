@@ -1,0 +1,1 @@
+jupyter nbconvert presentation_notebook.ipynb --to slides --post serve --no-input --no-prompt --SlidesExporter.reveal_scroll=True
