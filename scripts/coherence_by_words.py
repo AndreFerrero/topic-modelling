@@ -78,6 +78,6 @@ def coherence_by_words(df, n):
             
             coherence.append(coherence_value)
 
-    coherence = [round(num, 2) for num in coherence]
+    coherence = [round(num, 4) for num in coherence]
 
     return list(zip(models, coherence))
