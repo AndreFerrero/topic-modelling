@@ -75,9 +75,8 @@ def coherence_by_words(df, n):
             topics_for_coherence = [[word for word, _ in component] for component in components]
             
             coherence_value = CoherenceModel(topics=topics_for_coherence, texts=texts, dictionary=dictionary, coherence='c_v').get_coherence()
-            coherence_value = round(coherence_value, 4)
             
             coherence.append(coherence_value)
         
-    return list(zip(models, coherence))
+    return list(zip(models, round(coherence, 4)))
         
