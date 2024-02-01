@@ -53,7 +53,7 @@ def preprocess(doc):
     doc = re.sub(r'\b\S*@\S*\.\S*\b', '', doc)
     
     # Remove special characters and digits, retain only words with letters
-    doc = re.sub(r'[^\w\s]', '', doc)
+    doc = re.sub(r'[^\w\s\']', '', doc)
     
     # Lowercase and strip
     doc = doc.lower().strip()
@@ -95,7 +95,8 @@ def preprocess(doc):
                        'much', 'come', 'many', 'may', 'give', 'really', 'tell', 'two', 'still', 'read', 'might', 'write',
                        'never', 'look', 'sure', 'day', 'even', 'new', 'time', 'good', 'first', 'keep', 'since', 'last', 
                        'long', 'fact', 'must', 'cant', 'another', 'little', 'without', 'csutexasedu', 'nntppostinghost',
-                       'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', 'maybe', 'youre', 'isnt'])
+                       'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', 'maybe', 'youre', 'isnt',
+                       'couldnt', 'shall', 'arent'])
     
     filtered_tokens = [token for token in lemmatized_tokens if token not in stop_words]
     
