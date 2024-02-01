@@ -3,7 +3,7 @@ import matplotlib as plt
 import seaborn as sns
 import pandas as pd
 
-def plots(evaluation, type: str):
+def plots(evaluation, type: str, path):
     figures = R'figures'
     figures_folder = os.path.join(path, figures)
         

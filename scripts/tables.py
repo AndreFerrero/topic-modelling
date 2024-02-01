@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib as plt
 import os
 
-def tables(evaluation, type: str):
+def tables(evaluation, type: str, path):
     # Specify the results folder
     results = R"results"
     results_folder = os.path.join(path, results)
