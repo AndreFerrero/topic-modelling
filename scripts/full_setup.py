@@ -95,7 +95,7 @@ def preprocess(doc):
                        'much', 'come', 'many', 'may', 'give', 'really', 'tell', 'two', 'still', 'read', 'might', 'write',
                        'never', 'look', 'sure', 'day', 'even', 'new', 'time', 'good', 'first', 'keep', 'since', 'last', 
                        'long', 'fact', 'must', 'cant', 'another', 'little', 'without', 'csutexasedu', 'nntppostinghost',
-                       'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', ])
+                       'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', 'maybe', 'youre', 'isnt'])
     
     filtered_tokens = [token for token in lemmatized_tokens if token not in stop_words]
     
