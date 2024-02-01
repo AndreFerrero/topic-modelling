@@ -52,17 +52,20 @@ def preprocess(doc):
     # Remove email addresses
     doc = re.sub(r'\b\S*@\S*\.\S*\b', '', doc)
     
-    # Remove special characters and digits, retain only words with letters
+    # Remove special characters, retain only words with letters
     doc = re.sub(r'[^\w\s\']', '', doc)
     
-    # Lowercase and strip
-    doc = doc.lower().strip()
+    # remove digits
+    doc = re.sub(r'[0-9]+', '', doc)
     
     # Remove brackets of any kind
     doc = re.sub(r'[(){}[\]]', '', doc)
     
     # Remove punctuation
     doc = doc.translate(str.maketrans("", "", string.punctuation))
+    
+    # Lowercase and strip
+    doc = doc.lower().strip()
     
     # Tokenize document
     tokens = word_tokenize(doc)
@@ -96,7 +99,7 @@ def preprocess(doc):
                        'never', 'look', 'sure', 'day', 'even', 'new', 'time', 'good', 'first', 'keep', 'since', 'last', 
                        'long', 'fact', 'must', 'cant', 'another', 'little', 'without', 'csutexasedu', 'nntppostinghost',
                        'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', 'maybe', 'youre', 'isnt',
-                       'couldnt', 'shall', 'arent'])
+                       'couldnt', 'shall', 'arent', 'eg', 'etc', 'rather', 'either'])
     
     filtered_tokens = [token for token in lemmatized_tokens if token not in stop_words]
     
