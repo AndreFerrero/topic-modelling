@@ -7679,19 +7679,34 @@ The models used by the paper are:</p>
 </div>
 </div>
 </div>
-</div></section><section>
+</div><div class="fragment">
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Evaluation-by-topics:">Evaluation by topics:<a class="anchor-link" href="#Evaluation-by-topics:">¶</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">matutils</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">NMF</span><span class="p">,</span> <span class="n">PCA</span>
 <span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="k">def</span> <span class="nf">coherence_by_topics</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">tfidf</span><span class="p">):</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Evaluation-by-topics:">Evaluation by topics:<a class="anchor-link" href="#Evaluation-by-topics:">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">coherence_by_topics</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">tfidf</span><span class="p">):</span>
     <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'LDA'</span><span class="p">,</span> <span class="s1">'LSA'</span><span class="p">,</span> <span class="s1">'NMF'</span><span class="p">,</span> <span class="s1">'PCA'</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">]</span>
 
     <span class="n">coherence</span> <span class="o">=</span> <span class="p">[]</span>
@@ -7756,9 +7771,12 @@ The models used by the paper are:</p>
             <span class="n">coherence_value</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="n">topics_for_coherence</span><span class="p">,</span>
                                             <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
                                             <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
             
             <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
-        
+    
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">coherence</span><span class="p">]</span>
+
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">coherence</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -7770,16 +7788,7 @@ The models used by the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Evaluation-by-words:">Evaluation by words:<a class="anchor-link" href="#Evaluation-by-words:">¶</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
-<span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">matutils</span>
-<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">NMF</span><span class="p">,</span> <span class="n">PCA</span>
-<span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="k">def</span> <span class="nf">coherence_by_words</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<h3 id="Evaluation-by-words:">Evaluation by words:<a class="anchor-link" href="#Evaluation-by-words:">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">coherence_by_words</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'LDA'</span><span class="p">,</span> <span class="s1">'LSA'</span><span class="p">,</span> <span class="s1">'NMF'</span><span class="p">,</span> <span class="s1">'PCA'</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">]</span>
 
     <span class="n">documents</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -7872,10 +7881,125 @@ The models used by the paper are:</p>
                                             <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
                                             <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
                                             <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
             
             <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
+    
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">coherence</span><span class="p">]</span>
         
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">coherence</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Storing-results">Storing results<a class="anchor-link" href="#Storing-results">¶</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_by_topics</span> <span class="kn">import</span> <span class="n">coherence_by_topics</span>
+<span class="kn">from</span> <span class="nn">coherence_by_words</span> <span class="kn">import</span> <span class="n">coherence_by_words</span>
+
+<span class="n">evaluation_by_topics</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">n_topics</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
+    <span class="n">metrics_words</span> <span class="o">=</span> <span class="n">coherence_by_topics</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n_topics</span><span class="p">,</span>
+                                        <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+                                        <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                        <span class="n">texts</span><span class="o">=</span><span class="n">tokenized_docs</span><span class="p">,</span>
+                                        <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
+                                        <span class="n">tfidf</span><span class="o">=</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+    
+    <span class="n">evaluation_by_topics</span><span class="p">[</span><span class="n">n_topics</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_words</span>
+
+<span class="n">evaluation_by_words</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">n_words</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">metrics_words</span> <span class="o">=</span> <span class="n">coherence_by_words</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n_words</span><span class="p">)</span>
+    <span class="n">evaluation_by_words</span><span class="p">[</span><span class="n">n_words</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_words</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Results-for-evaluation-by-topics:">Results for evaluation by topics:<a class="anchor-link" href="#Results-for-evaluation-by-topics:">¶</a></h3><div class="highlight"><pre><span></span><span class="n">evaluation_by_topics</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.5179),</span>
+<span class="sd"> ('LSA', 0.5469),</span>
+<span class="sd"> ('NMF', 0.6479),</span>
+<span class="sd"> ('PCA', 0.5464),</span>
+<span class="sd"> ('RP', 0.2019)]'''</span>
+
+<span class="n">evaluation_by_topics</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.5264),</span>
+<span class="sd"> ('LSA', 0.4587),</span>
+<span class="sd"> ('NMF', 0.6736),</span>
+<span class="sd"> ('PCA', 0.4517),</span>
+<span class="sd"> ('RP', 0.2012)]'''</span>
+
+<span class="n">evaluation_by_topics</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.3957),</span>
+<span class="sd"> ('LSA', 0.382),</span>
+<span class="sd"> ('NMF', 0.633),</span>
+<span class="sd"> ('PCA', 0.3656),</span>
+<span class="sd"> ('RP', 0.2071)]'''</span>
+
+ <span class="n">evaluation_by_topics</span><span class="p">[</span><span class="mi">50</span><span class="p">]</span>
+<span class="w"> </span><span class="sd">'''</span>
+<span class="sd"> [('LDA', 0.3593),</span>
+<span class="sd"> ('LSA', 0.3138),</span>
+<span class="sd"> ('NMF', 0.5271),</span>
+<span class="sd"> ('PCA', 0.3193),</span>
+<span class="sd"> ('RP', 0.2112)]'''</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Results-for-evaluation-by-words:">Results for evaluation by words:<a class="anchor-link" href="#Results-for-evaluation-by-words:">¶</a></h3><div class="highlight"><pre><span></span><span class="n">evaluation_by_words</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.4661),</span>
+<span class="sd"> ('LSA', 0.4661),</span>
+<span class="sd"> ('NMF', 0.4661),</span>
+<span class="sd"> ('PCA', 0.4661),</span>
+<span class="sd"> ('RP', 0.4661)]'''</span>
+
+ <span class="n">evaluation_by_words</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.4183),</span>
+<span class="sd"> ('LSA', 0.3723),</span>
+<span class="sd"> ('NMF', 0.4723),</span>
+<span class="sd"> ('PCA', 0.387),</span>
+<span class="sd"> ('RP', 0.3258)]'''</span>
+
+ <span class="n">evaluation_by_words</span><span class="p">[</span><span class="mi">1000</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.5179),</span>
+<span class="sd"> ('LSA', 0.5469),</span>
+<span class="sd"> ('NMF', 0.6479),</span>
+<span class="sd"> ('PCA', 0.5464),</span>
+<span class="sd"> ('RP', 0.2019)]'''</span>
+
+ <span class="n">evaluation_by_words</span><span class="p">[</span><span class="mi">10000</span><span class="p">]</span>
+<span class="sd">'''</span>
+<span class="sd">[('LDA', 0.4755),</span>
+<span class="sd"> ('LSA', 0.4596),</span>
+<span class="sd"> ('NMF', 0.7112),</span>
+<span class="sd"> ('PCA', 0.625),</span>
+<span class="sd"> ('RP', 0.6706)]'''</span>
 </pre></div>
 </div>
 </div>
