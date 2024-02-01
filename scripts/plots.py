@@ -4,6 +4,9 @@ import seaborn as sns
 import pandas as pd
 
 def plots(evaluation, type: str):
+    figures = R'figures'
+    figures_folder = os.path.join(path, figures)
+        
     for n, metrics in evaluation.items():
         model_names, coherence_values = zip(*metrics)
 
@@ -21,9 +24,7 @@ def plots(evaluation, type: str):
         plt.title(f'Coherence Evaluation for {n} {type}')
         plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
-        
-        figures = R'figures'
-        figures_folder = os.path.join(path, figures)
+
         save_path = os.path.join(figures_folder, f'coherence_evaluation_{n}_{type}')
         
         plt.savefig(save_path)
