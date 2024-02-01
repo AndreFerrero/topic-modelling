@@ -5,6 +5,7 @@ from nltk.corpus import words, wordnet, stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk import pos_tag
 from nltk.tokenize import word_tokenize
+import contractions
 
 def import_data(path):
     data_path = R"data\data-train"
@@ -51,8 +52,14 @@ def import_data(path):
     return df
 
 def preprocess(doc):
-    # Remove email addresses
-    doc = re.sub(r'\b\S*@\S*\.\S*\b', '', doc)
+    # Tokenize document
+    tokens = word_tokenize(doc)
+    
+    # Expand contractions
+    tokens = [contractions.fix(token) for token in tokens]
+    
+    # Rejoin tokens into a string
+    doc = ' '.join(tokens)
     
     # Remove special characters, retain only words with letters
     doc = re.sub(r'[^\w\s\']', '', doc)
@@ -68,14 +75,14 @@ def preprocess(doc):
     
     # Lowercase and strip
     doc = doc.lower().strip()
+
+    # Tokenize again after cleaning
+    cleaned_tokens = word_tokenize(doc)
+
+    # POS tagging on the original tokenized version
+    pos_tags = pos_tag(cleaned_tokens)
     
-    # Tokenize document
-    tokens = word_tokenize(doc)
-    
-    # POS tagging
-    pos_tags = pos_tag(tokens)
-    
-     # map POS tags to WordNet POS tags
+    # map POS tags to WordNet POS tags
     tag_map = {
         'N': wordnet.NOUN,
         'V': wordnet.VERB,
@@ -85,23 +92,28 @@ def preprocess(doc):
 
     # Lemmatize tokens
     lemmatizer = WordNetLemmatizer()
-    # .get() returns value associated to keyname. If keyname is not a key, it returns what's specified in value
     lemmatized_tokens = [lemmatizer.lemmatize(token, tag_map.get(pos[0], wordnet.NOUN)) for token, pos in pos_tags]
-    
     
     # Filter stopwords out of lemmatized tokens
     stop_words = stopwords.words('english')
     
-    stop_words.extend(['hi', 'thanks', 'lot', 'dont', 'article', 'everyone', 'anyone', 'someone', 'nothing',
-                       'something', 'anything', 'everybody', 'somebody', 'anybody', 'please', 'ask', 'people', 'university',
-                       'question', 'yeah', 'shouldnt', 'theyre', 'thing', 'theyll', 'didnt', 'sorry', 'hey',
-                       'oh', 'thats', 'thank', 'cannot', 'right', 'would', 'one', 'get', 'know', 'like', 'use', 'go',
-                       'think', 'make', 'say', 'see', 'also', 'could', 'well', 'want', 'way', 'take', 'find', 'need', 'try',
-                       'much', 'come', 'many', 'may', 'give', 'really', 'tell', 'two', 'still', 'read', 'might', 'write',
-                       'never', 'look', 'sure', 'day', 'even', 'new', 'time', 'good', 'first', 'keep', 'since', 'last', 
-                       'long', 'fact', 'must', 'cant', 'another', 'little', 'without', 'csutexasedu', 'nntppostinghost',
-                       'im', 'seem', 'replyto', 'let', 'group', 'call', 'seem', 'maybe', 'youre', 'isnt',
-                       'couldnt', 'shall', 'arent', 'eg', 'etc', 'rather', 'either'])
+    stop_words.extend(['hi', 'thanks', 'lot', 'dont', 'article', 'everyone',
+                       'anyone', 'someone', 'nothing',
+                       'something', 'anything', 'everybody', 'somebody', 'anybody',
+                       'please', 'ask', 'people', 'university',
+                       'question', 'yeah', 'thing', 'sorry', 'hey', 'oh',
+                       'thank', 'cannot', 'right', 'would', 'one', 'get',
+                       'know', 'like', 'use', 'go',
+                       'think', 'make', 'say', 'see', 'also', 'could', 'well', 'want',
+                       'way', 'take', 'find', 'need', 'try',
+                       'much', 'come', 'many', 'may', 'give', 'really', 'tell',
+                       'two', 'still', 'read', 'might', 'write',
+                       'never', 'look', 'sure', 'day', 'even', 'new', 'time',
+                       'good', 'first', 'keep', 'since', 'last', 
+                       'long', 'fact', 'must', 'cant', 'another', 'little',
+                       'without', 'csutexasedu', 'nntppostinghost',
+                       'seem', 'replyto', 'let', 'group', 'call', 'seem',
+                       'maybe','shall', 'eg', 'etc', 'rather', 'either'])
     
     filtered_tokens = [token for token in lemmatized_tokens if token not in stop_words]
     
