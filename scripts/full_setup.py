@@ -7,12 +7,14 @@ from nltk import pos_tag
 from nltk.tokenize import word_tokenize
 
 def import_data(path):
+    data_path = R"data\data-train"
+    full_path = os.path.join(path, data_path)
     
     folders_path_list = []
-    folders = os.listdir(path)
+    folders = os.listdir(full_path)
     
     for folder in folders:
-        folders_path_list.append(os.path.join(path, folder))
+        folders_path_list.append(os.path.join(full_path, folder))
     
     conversion = {'religion' : [folders[i] for i in [0, 15, 19]],
                   'computer': [folders[i] for i in range(1, 6)],
@@ -122,7 +124,7 @@ def check_empty_docs(df):
     else:
         print("No empty documents found.")
 
-path = R"C:\Users\andre\OneDrive - Alma Mater Studiorum Università di Bologna\University\UniBo\Machine Learning\PR1.20\data\data-train"
+path = os.getcwd()
 
 df = import_data(path)
 
