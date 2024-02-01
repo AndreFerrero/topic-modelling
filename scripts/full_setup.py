@@ -124,7 +124,8 @@ def check_empty_docs(df):
     else:
         print("No empty documents found.")
 
-path = os.getcwd()
+scripts_path = os.getcwd()
+path = os.path.dirname(current_dir)
 
 df = import_data(path)
 
