@@ -7482,6 +7482,7 @@ The models used by the auuthors of the paper are:</p>
 <span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
 <span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">pos_tag</span>
 <span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="kn">import</span> <span class="nn">contractions</span>
 </pre></div>
 </div>
 </div>
@@ -7546,10 +7547,16 @@ The models used by the auuthors of the paper are:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="c1"># Remove email addresses</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\b\S*@\S*\.\S*\b'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+    <span class="c1"># Tokenize document</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
     
-    <span class="c1"># Remove special characters, excluding '</span>
+    <span class="c1"># Expand contractions</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">contractions</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+    
+    <span class="c1"># Rejoin tokens into a string</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    
+    <span class="c1"># Remove special characters, retain only words with letters</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^\w\s</span><span class="se">\'</span><span class="s1">]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
     
     <span class="c1"># remove digits</span>
@@ -7563,14 +7570,14 @@ The models used by the auuthors of the paper are:</p>
     
     <span class="c1"># Lowercase and strip</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="c1"># Tokenize again after cleaning</span>
+    <span class="n">cleaned_tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+    <span class="c1"># POS tagging on the original tokenized version</span>
+    <span class="n">pos_tags</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">cleaned_tokens</span><span class="p">)</span>
     
-    <span class="c1"># Tokenize document</span>
-    <span class="n">tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    
-    <span class="c1"># POS tagging</span>
-    <span class="n">pos_tags</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
-    
-     <span class="c1"># map POS tags to WordNet POS tags</span>
+    <span class="c1"># map POS tags to WordNet POS tags</span>
     <span class="n">tag_map</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">'N'</span><span class="p">:</span> <span class="n">wordnet</span><span class="o">.</span><span class="n">NOUN</span><span class="p">,</span>
         <span class="s1">'V'</span><span class="p">:</span> <span class="n">wordnet</span><span class="o">.</span><span class="n">VERB</span><span class="p">,</span>
@@ -7580,23 +7587,28 @@ The models used by the auuthors of the paper are:</p>
 
     <span class="c1"># Lemmatize tokens</span>
     <span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>
-    <span class="c1"># .get() returns value associated to keyname. If keyname is not a key, it returns what's specified in value</span>
     <span class="n">lemmatized_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">lemmatizer</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">tag_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wordnet</span><span class="o">.</span><span class="n">NOUN</span><span class="p">))</span> <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">pos_tags</span><span class="p">]</span>
-    
     
     <span class="c1"># Filter stopwords out of lemmatized tokens</span>
     <span class="n">stop_words</span> <span class="o">=</span> <span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">'english'</span><span class="p">)</span>
     
-    <span class="n">stop_words</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">'hi'</span><span class="p">,</span> <span class="s1">'thanks'</span><span class="p">,</span> <span class="s1">'lot'</span><span class="p">,</span> <span class="s1">'dont'</span><span class="p">,</span> <span class="s1">'article'</span><span class="p">,</span> <span class="s1">'everyone'</span><span class="p">,</span> <span class="s1">'anyone'</span><span class="p">,</span> <span class="s1">'someone'</span><span class="p">,</span> <span class="s1">'nothing'</span><span class="p">,</span>
-                       <span class="s1">'something'</span><span class="p">,</span> <span class="s1">'anything'</span><span class="p">,</span> <span class="s1">'everybody'</span><span class="p">,</span> <span class="s1">'somebody'</span><span class="p">,</span> <span class="s1">'anybody'</span><span class="p">,</span> <span class="s1">'please'</span><span class="p">,</span> <span class="s1">'ask'</span><span class="p">,</span> <span class="s1">'people'</span><span class="p">,</span> <span class="s1">'university'</span><span class="p">,</span>
-                       <span class="s1">'question'</span><span class="p">,</span> <span class="s1">'yeah'</span><span class="p">,</span> <span class="s1">'shouldnt'</span><span class="p">,</span> <span class="s1">'theyre'</span><span class="p">,</span> <span class="s1">'thing'</span><span class="p">,</span> <span class="s1">'theyll'</span><span class="p">,</span> <span class="s1">'didnt'</span><span class="p">,</span> <span class="s1">'sorry'</span><span class="p">,</span> <span class="s1">'hey'</span><span class="p">,</span>
-                       <span class="s1">'oh'</span><span class="p">,</span> <span class="s1">'thats'</span><span class="p">,</span> <span class="s1">'thank'</span><span class="p">,</span> <span class="s1">'cannot'</span><span class="p">,</span> <span class="s1">'right'</span><span class="p">,</span> <span class="s1">'would'</span><span class="p">,</span> <span class="s1">'one'</span><span class="p">,</span> <span class="s1">'get'</span><span class="p">,</span> <span class="s1">'know'</span><span class="p">,</span> <span class="s1">'like'</span><span class="p">,</span> <span class="s1">'use'</span><span class="p">,</span> <span class="s1">'go'</span><span class="p">,</span>
-                       <span class="s1">'think'</span><span class="p">,</span> <span class="s1">'make'</span><span class="p">,</span> <span class="s1">'say'</span><span class="p">,</span> <span class="s1">'see'</span><span class="p">,</span> <span class="s1">'also'</span><span class="p">,</span> <span class="s1">'could'</span><span class="p">,</span> <span class="s1">'well'</span><span class="p">,</span> <span class="s1">'want'</span><span class="p">,</span> <span class="s1">'way'</span><span class="p">,</span> <span class="s1">'take'</span><span class="p">,</span> <span class="s1">'find'</span><span class="p">,</span> <span class="s1">'need'</span><span class="p">,</span> <span class="s1">'try'</span><span class="p">,</span>
-                       <span class="s1">'much'</span><span class="p">,</span> <span class="s1">'come'</span><span class="p">,</span> <span class="s1">'many'</span><span class="p">,</span> <span class="s1">'may'</span><span class="p">,</span> <span class="s1">'give'</span><span class="p">,</span> <span class="s1">'really'</span><span class="p">,</span> <span class="s1">'tell'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'still'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'might'</span><span class="p">,</span> <span class="s1">'write'</span><span class="p">,</span>
-                       <span class="s1">'never'</span><span class="p">,</span> <span class="s1">'look'</span><span class="p">,</span> <span class="s1">'sure'</span><span class="p">,</span> <span class="s1">'day'</span><span class="p">,</span> <span class="s1">'even'</span><span class="p">,</span> <span class="s1">'new'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span> <span class="s1">'good'</span><span class="p">,</span> <span class="s1">'first'</span><span class="p">,</span> <span class="s1">'keep'</span><span class="p">,</span> <span class="s1">'since'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span> 
-                       <span class="s1">'long'</span><span class="p">,</span> <span class="s1">'fact'</span><span class="p">,</span> <span class="s1">'must'</span><span class="p">,</span> <span class="s1">'cant'</span><span class="p">,</span> <span class="s1">'another'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span> <span class="s1">'without'</span><span class="p">,</span> <span class="s1">'csutexasedu'</span><span class="p">,</span> <span class="s1">'nntppostinghost'</span><span class="p">,</span>
-                       <span class="s1">'im'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'replyto'</span><span class="p">,</span> <span class="s1">'let'</span><span class="p">,</span> <span class="s1">'group'</span><span class="p">,</span> <span class="s1">'call'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'maybe'</span><span class="p">,</span> <span class="s1">'youre'</span><span class="p">,</span> <span class="s1">'isnt'</span><span class="p">,</span>
-                       <span class="s1">'couldnt'</span><span class="p">,</span> <span class="s1">'shall'</span><span class="p">,</span> <span class="s1">'arent'</span><span class="p">,</span> <span class="s1">'eg'</span><span class="p">,</span> <span class="s1">'etc'</span><span class="p">,</span> <span class="s1">'rather'</span><span class="p">,</span> <span class="s1">'either'</span><span class="p">])</span>
+    <span class="n">stop_words</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">'hi'</span><span class="p">,</span> <span class="s1">'thanks'</span><span class="p">,</span> <span class="s1">'lot'</span><span class="p">,</span> <span class="s1">'article'</span><span class="p">,</span> <span class="s1">'everyone'</span><span class="p">,</span>
+                       <span class="s1">'anyone'</span><span class="p">,</span> <span class="s1">'someone'</span><span class="p">,</span> <span class="s1">'nothing'</span><span class="p">,</span>
+                       <span class="s1">'something'</span><span class="p">,</span> <span class="s1">'anything'</span><span class="p">,</span> <span class="s1">'everybody'</span><span class="p">,</span> <span class="s1">'somebody'</span><span class="p">,</span> <span class="s1">'anybody'</span><span class="p">,</span>
+                       <span class="s1">'please'</span><span class="p">,</span> <span class="s1">'ask'</span><span class="p">,</span> <span class="s1">'people'</span><span class="p">,</span> <span class="s1">'university'</span><span class="p">,</span>
+                       <span class="s1">'question'</span><span class="p">,</span> <span class="s1">'yeah'</span><span class="p">,</span> <span class="s1">'thing'</span><span class="p">,</span> <span class="s1">'sorry'</span><span class="p">,</span> <span class="s1">'hey'</span><span class="p">,</span> <span class="s1">'oh'</span><span class="p">,</span>
+                       <span class="s1">'thank'</span><span class="p">,</span> <span class="s1">'cannot'</span><span class="p">,</span> <span class="s1">'right'</span><span class="p">,</span> <span class="s1">'would'</span><span class="p">,</span> <span class="s1">'one'</span><span class="p">,</span> <span class="s1">'get'</span><span class="p">,</span>
+                       <span class="s1">'know'</span><span class="p">,</span> <span class="s1">'like'</span><span class="p">,</span> <span class="s1">'use'</span><span class="p">,</span> <span class="s1">'go'</span><span class="p">,</span>
+                       <span class="s1">'think'</span><span class="p">,</span> <span class="s1">'make'</span><span class="p">,</span> <span class="s1">'say'</span><span class="p">,</span> <span class="s1">'see'</span><span class="p">,</span> <span class="s1">'also'</span><span class="p">,</span> <span class="s1">'could'</span><span class="p">,</span> <span class="s1">'well'</span><span class="p">,</span> <span class="s1">'want'</span><span class="p">,</span>
+                       <span class="s1">'way'</span><span class="p">,</span> <span class="s1">'take'</span><span class="p">,</span> <span class="s1">'find'</span><span class="p">,</span> <span class="s1">'need'</span><span class="p">,</span> <span class="s1">'try'</span><span class="p">,</span>
+                       <span class="s1">'much'</span><span class="p">,</span> <span class="s1">'come'</span><span class="p">,</span> <span class="s1">'many'</span><span class="p">,</span> <span class="s1">'may'</span><span class="p">,</span> <span class="s1">'give'</span><span class="p">,</span> <span class="s1">'really'</span><span class="p">,</span> <span class="s1">'tell'</span><span class="p">,</span>
+                       <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'still'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'might'</span><span class="p">,</span> <span class="s1">'write'</span><span class="p">,</span>
+                       <span class="s1">'never'</span><span class="p">,</span> <span class="s1">'look'</span><span class="p">,</span> <span class="s1">'sure'</span><span class="p">,</span> <span class="s1">'day'</span><span class="p">,</span> <span class="s1">'even'</span><span class="p">,</span> <span class="s1">'new'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span>
+                       <span class="s1">'good'</span><span class="p">,</span> <span class="s1">'first'</span><span class="p">,</span> <span class="s1">'keep'</span><span class="p">,</span> <span class="s1">'since'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span> 
+                       <span class="s1">'long'</span><span class="p">,</span> <span class="s1">'fact'</span><span class="p">,</span> <span class="s1">'must'</span><span class="p">,</span> <span class="s1">'cant'</span><span class="p">,</span> <span class="s1">'another'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span>
+                       <span class="s1">'without'</span><span class="p">,</span> <span class="s1">'csutexasedu'</span><span class="p">,</span> <span class="s1">'nntppostinghost'</span><span class="p">,</span>
+                       <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'replyto'</span><span class="p">,</span> <span class="s1">'let'</span><span class="p">,</span> <span class="s1">'group'</span><span class="p">,</span> <span class="s1">'call'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span>
+                       <span class="s1">'maybe'</span><span class="p">,</span><span class="s1">'shall'</span><span class="p">,</span> <span class="s1">'eg'</span><span class="p">,</span> <span class="s1">'etc'</span><span class="p">,</span> <span class="s1">'rather'</span><span class="p">,</span> <span class="s1">'either'</span><span class="p">])</span>
     
     <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">lemmatized_tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
     
@@ -7933,7 +7945,7 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Summary-tables">Summary tables<a class="anchor-link" href="#Summary-tables">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="n">evaluation</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<h3 id="Summary-tables">Summary tables<a class="anchor-link" href="#Summary-tables">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="n">evaluation</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="c1"># Specify the results folder</span>
     <span class="n">results</span> <span class="o">=</span> <span class="sa">R</span><span class="s2">"results"</span>
     <span class="n">results_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
@@ -7980,7 +7992,7 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">)</span>
 </pre></div>
 <p><img alt="alt text" src="results/table_5_topics.png"/>
 <img alt="alt text" src="results/table_10_topics.png"/>
@@ -7995,7 +8007,7 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h4><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<h4 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h4><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">)</span>
 </pre></div>
 <p><img alt="alt text" src="results/table_10_words.png"/>
 <img alt="alt text" src="results/table_100_words.png"/>
@@ -8044,7 +8056,7 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">)</span>
 </pre></div>
 <p><img alt="alt text" src="figures/coherence_evaluation_5_topics.png"/>
 <img alt="alt text" src="figures/coherence_evaluation_10_topics.png"/>
@@ -8059,7 +8071,7 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<h3 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">)</span>
 </pre></div>
 <p><img alt="alt text" src="figures/coherence_evaluation_10_words.png"/>
 <img alt="alt text" src="figures/coherence_evaluation_100_words.png"/>
@@ -8093,12 +8105,14 @@ In particular, we print the top 15 words for each topic identified by the model.
             <span class="n">topic_index</span><span class="p">,</span> <span class="n">words</span> <span class="o">=</span> <span class="n">topic</span>
             <span class="n">topic_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'"'</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" + "</span><span class="p">)]</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Topic </span><span class="si">{</span><span class="n">topic_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">topic_words</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
         
         <span class="k">for</span> <span class="n">topic_index</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">components_</span><span class="p">):</span>
             <span class="n">component_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature_names</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Topic </span><span class="si">{</span><span class="n">topic_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">component_words</span><span class="p">[:</span><span class="mi">15</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8123,11 +8137,11 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Topic 1: email, window, system, file, program, drive, distribution, computer, work, version, card, help, sale, problem, usa</p>
-<p>Topic 2: israel, israeli, jew, game, team, arab, jewish, player, year, play, win, hockey, fan, soldier, season</p>
-<p>Topic 3: government, gun, state, law, clinton, president, drug, child, american, kill, tax, weapon, year, public, country</p>
-<p>Topic 4: armenian, turkish, armenia, turk, greek, turkey, russian, los, gary, angeles, muslim, ca, nasa, april, orbit</p>
-<p>Topic 5: god, christian, jesus, believe, church, life, bible, mean, year, point, work, writes, study, religion, world</p>
+<p>Topic 1: government, gun, state, year, apr, law, car, clinton, tax, drug, netcomcom, ca, case, work, distribution</p>
+<p>Topic 2: god, israel, christian, israeli, armenian, jew, jesus, believe, turkish, arab, church, bible, kill, religion, apr</p>
+<p>Topic 3: space, email, post, xnewsreader, computer, pl, bank, tin, science, gordon, distribution, information, version, mail, system</p>
+<p>Topic 4: window, drive, bike, card, work, henry, problem, system, sale, program, file, run, computer, email, monitor</p>
+<p>Topic 5: game, team, player, pat, play, win, hockey, season, baseball, year, fan, score, league, wing, playoff</p>
 </div>
 </div>
 </div>
@@ -8150,11 +8164,11 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Topic 1: system, work, year, problem, distribution, window, god, computer, drive, run, file, state, car, world, help</p>
-<p>Topic 2: window, god, file, card, driver, drive, christian, program, jesus, believe, system, email, disk, video, problem</p>
-<p>Topic 3: game, team, god, player, win, play, year, season, hockey, christian, jesus, baseball, score, fan, file</p>
-<p>Topic 4: window, god, file, key, chip, car, game, clipper, encryption, government, team, christian, jesus, win, program</p>
-<p>Topic 5: drive, key, car, file, chip, clipper, encryption, window, god, card, scsi, sale, government, program, hard</p>
+<p>Topic 1: apr, system, work, year, problem, window, distribution, god, computer, drive, run, file, car, state, world</p>
+<p>Topic 2: window, god, file, card, drive, driver, christian, program, jesus, believe, system, email, disk, problem, video</p>
+<p>Topic 3: game, team, god, player, win, play, year, season, hockey, christian, jesus, score, baseball, fan, file</p>
+<p>Topic 4: window, god, key, chip, file, car, clipper, game, encryption, government, christian, team, jesus, win, program</p>
+<p>Topic 5: drive, car, key, file, window, clipper, chip, encryption, scsi, card, sale, god, program, bike, government</p>
 </div>
 </div>
 </div>
@@ -8177,11 +8191,11 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Topic 1: key, government, state, car, year, gun, chip, distribution, system, law, work, writes, space, clipper, post</p>
-<p>Topic 2: window, file, program, run, version, help, problem, application, image, graphic, email, driver, server, manager, display</p>
-<p>Topic 3: game, team, win, player, play, year, season, hockey, score, baseball, fan, nhl, league, playoff, run</p>
-<p>Topic 4: god, christian, jesus, believe, bible, christ, faith, church, atheist, life, religion, belief, truth, sin, christianity</p>
-<p>Topic 5: drive, card, sale, scsi, mb, disk, driver, monitor, mac, video, system, problem, hard, controller, work</p>
+<p>Topic 1: key, apr, government, state, year, car, gun, chip, system, distribution, law, work, clipper, ca, space</p>
+<p>Topic 2: window, file, program, run, version, help, problem, application, image, graphic, driver, email, display, server, manager</p>
+<p>Topic 3: game, team, win, player, play, year, season, hockey, score, baseball, fan, nhl, playoff, league, run</p>
+<p>Topic 4: god, christian, jesus, believe, bible, christ, faith, church, atheist, life, religion, belief, truth, christianity, sin</p>
+<p>Topic 5: drive, card, sale, scsi, mb, disk, monitor, mac, driver, video, system, problem, hard, controller, work</p>
 </div>
 </div>
 </div>
@@ -8213,11 +8227,11 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Topic 1: god, christian, jesus, believe, year, law, bible, team, life, jew, church, game, religion, christ, faith</p>
+<p>Topic 1: god, christian, jesus, believe, year, law, bible, team, life, jew, church, religion, christ, faith, game</p>
 <p>Topic 2: game, team, player, win, play, year, season, hockey, score, baseball, fan, nhl, playoff, league, toronto</p>
-<p>Topic 3: window, god, file, game, team, jesus, christian, win, program, bible, run, driver, player, play, version</p>
-<p>Topic 4: key, file, chip, window, clipper, encryption, government, program, algorithm, team, public, security, game, phone, secret</p>
-<p>Topic 5: key, god, chip, game, card, drive, clipper, scsi, encryption, system, team, mb, jesus, disk, bit</p>
+<p>Topic 3: key, chip, car, clipper, encryption, government, gun, system, phone, drive, algorithm, buy, netcomcom, public, law</p>
+<p>Topic 4: drive, car, scsi, sale, card, god, bike, mb, price, buy, hard, ide, speed, controller, disk</p>
+<p>Topic 5: god, key, chip, card, game, drive, scsi, clipper, encryption, system, team, mb, jesus, christian, disk</p>
 </div>
 </div>
 </div>
@@ -8240,11 +8254,20 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Topic 1: money, record, extra, company, president, defense, stephanopoulos, similar, st, commit, class, atheist, gm, health, appear</p>
-<p>Topic 2: package, department, flame, happy, america, human, possible, available, chance, crime, request, woman, private, image, sense</p>
-<p>Topic 3: hard, size, situation, detail, reference, determine, certain, die, reach, scsi, cheap, launch, bit, research, end</p>
-<p>Topic 4: apple, tim, sometimes, tin, switch, woman, eye, inside, van, figure, child, suspect, agree, men, village</p>
-<p>Topic 5: building, help, definition, na, moon, range, mention, shoot, describe, complete, date, happen, david, follow, youve</p>
+<p>Topic 1: modem, recent, explain, communication, power, decide, step, side, spend, comment, claim, attack, georgia, hardware, application</p>
+<p>Topic 2: output, definition, fit, hand, american, however, political, average, certainly, create, replace, wm, price, illinois, select</p>
+<p>Topic 3: handle, sit, single, describe, red, design, center, development, range, score, charge, later, bike, report, email</p>
+<p>Topic 4: apply, tim, software, tin, suspect, wm, express, inside, uunet, feel, chicago, suppose, aid, memory, video</p>
+<p>Topic 5: build, hell, defense, muslim, month, radio, men, several, depend, company, data, half, dave, flame, yous</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>
