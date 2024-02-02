@@ -97,7 +97,7 @@ def preprocess(doc):
     # Filter stopwords out of lemmatized tokens
     stop_words = stopwords.words('english')
     
-    stop_words.extend(['hi', 'thanks', 'lot', 'dont', 'article', 'everyone',
+    stop_words.extend(['hi', 'thanks', 'lot', 'article', 'everyone',
                        'anyone', 'someone', 'nothing',
                        'something', 'anything', 'everybody', 'somebody', 'anybody',
                        'please', 'ask', 'people', 'university',
@@ -110,7 +110,7 @@ def preprocess(doc):
                        'two', 'still', 'read', 'might', 'write',
                        'never', 'look', 'sure', 'day', 'even', 'new', 'time',
                        'good', 'first', 'keep', 'since', 'last', 
-                       'long', 'fact', 'must', 'cant', 'another', 'little',
+                       'long', 'fact', 'must', 'another', 'little',
                        'without', 'csutexasedu', 'nntppostinghost',
                        'seem', 'replyto', 'let', 'group', 'call', 'seem',
                        'maybe','shall', 'eg', 'etc', 'rather', 'either'])
