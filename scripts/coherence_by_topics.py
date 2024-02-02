@@ -57,4 +57,6 @@ def coherence_by_topics(n: int, corpus, dictionary, texts, feature_names, tfidf)
             
             coherence.append(coherence_value)
         
+    coherence = [round(num, 4) for num in coherence]
+
     return list(zip(models, coherence))

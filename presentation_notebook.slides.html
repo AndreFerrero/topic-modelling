@@ -7440,7 +7440,7 @@ main {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Project-overview">Project overview<a class="anchor-link" href="#Project-overview">¶</a></h2><p>The goal of the project is to evaluate how different models perform in the task of topic modelling.
-The models used by the paper are:</p>
+The models used by the auuthors of the paper are:</p>
 <ol>
 <li>Latent Dirchlet Allocation (LDA)</li>
 <li>Latent Semantic Analysis (LSA)</li>
@@ -7459,7 +7459,7 @@ The models used by the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Importing-and-preprocessing">Importing and preprocessing<a class="anchor-link" href="#Importing-and-preprocessing">¶</a></h2><p>The data used comes from the 20-Newsgroups dataset, available online, containing various texts from different topics. The importing required preprocessing steps such as:</p>
+<h2 id="Importing-and-preprocessing">Importing and preprocessing<a class="anchor-link" href="#Importing-and-preprocessing">¶</a></h2><p>The data used comes from the 20-Newsgroups dataset, available online, containing various texts from different topics. The data required preprocessing steps such as:</p>
 <ul>
 <li>removal of special characters using regular expressions</li>
 <li>tokenization</li>
@@ -7469,7 +7469,7 @@ The models used by the paper are:</p>
 </div>
 </div>
 </div>
-</div><div class="fragment">
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7486,19 +7486,21 @@ The models used by the paper are:</p>
 </div>
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">import_data</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="sa">R</span><span class="s2">"data\data-train"</span>
+    <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
     
     <span class="n">folders_path_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">folders</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">folders</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span>
     
     <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
-        <span class="n">folders_path_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">folder</span><span class="p">))</span>
+        <span class="n">folders_path_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">folder</span><span class="p">))</span>
     
     <span class="n">conversion</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'religion'</span> <span class="p">:</span> <span class="p">[</span><span class="n">folders</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">]],</span>
                   <span class="s1">'computer'</span><span class="p">:</span> <span class="p">[</span><span class="n">folders</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
@@ -7544,21 +7546,23 @@ The models used by the paper are:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    
     <span class="c1"># Remove email addresses</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\b\S*@\S*\.\S*\b'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
     
-    <span class="c1"># Remove special characters and digits, retain only words with letters</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^\w\s]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+    <span class="c1"># Remove special characters, excluding '</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^\w\s</span><span class="se">\'</span><span class="s1">]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
     
-    <span class="c1"># Lowercase and strip</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># remove digits</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[0-9]+'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
     
     <span class="c1"># Remove brackets of any kind</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[()</span><span class="si">{}</span><span class="s1">[\]]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
     
     <span class="c1"># Remove punctuation</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    
+    <span class="c1"># Lowercase and strip</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     
     <span class="c1"># Tokenize document</span>
     <span class="n">tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
@@ -7591,7 +7595,8 @@ The models used by the paper are:</p>
                        <span class="s1">'much'</span><span class="p">,</span> <span class="s1">'come'</span><span class="p">,</span> <span class="s1">'many'</span><span class="p">,</span> <span class="s1">'may'</span><span class="p">,</span> <span class="s1">'give'</span><span class="p">,</span> <span class="s1">'really'</span><span class="p">,</span> <span class="s1">'tell'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'still'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'might'</span><span class="p">,</span> <span class="s1">'write'</span><span class="p">,</span>
                        <span class="s1">'never'</span><span class="p">,</span> <span class="s1">'look'</span><span class="p">,</span> <span class="s1">'sure'</span><span class="p">,</span> <span class="s1">'day'</span><span class="p">,</span> <span class="s1">'even'</span><span class="p">,</span> <span class="s1">'new'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span> <span class="s1">'good'</span><span class="p">,</span> <span class="s1">'first'</span><span class="p">,</span> <span class="s1">'keep'</span><span class="p">,</span> <span class="s1">'since'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span> 
                        <span class="s1">'long'</span><span class="p">,</span> <span class="s1">'fact'</span><span class="p">,</span> <span class="s1">'must'</span><span class="p">,</span> <span class="s1">'cant'</span><span class="p">,</span> <span class="s1">'another'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span> <span class="s1">'without'</span><span class="p">,</span> <span class="s1">'csutexasedu'</span><span class="p">,</span> <span class="s1">'nntppostinghost'</span><span class="p">,</span>
-                       <span class="s1">'im'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'replyto'</span><span class="p">,</span> <span class="s1">'let'</span><span class="p">,</span> <span class="s1">'group'</span><span class="p">,</span> <span class="s1">'call'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="p">])</span>
+                       <span class="s1">'im'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'replyto'</span><span class="p">,</span> <span class="s1">'let'</span><span class="p">,</span> <span class="s1">'group'</span><span class="p">,</span> <span class="s1">'call'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'maybe'</span><span class="p">,</span> <span class="s1">'youre'</span><span class="p">,</span> <span class="s1">'isnt'</span><span class="p">,</span>
+                       <span class="s1">'couldnt'</span><span class="p">,</span> <span class="s1">'shall'</span><span class="p">,</span> <span class="s1">'arent'</span><span class="p">,</span> <span class="s1">'eg'</span><span class="p">,</span> <span class="s1">'etc'</span><span class="p">,</span> <span class="s1">'rather'</span><span class="p">,</span> <span class="s1">'either'</span><span class="p">])</span>
     
     <span class="n">filtered_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">lemmatized_tokens</span> <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>
     
@@ -7609,7 +7614,8 @@ The models used by the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="sa">R</span><span class="s2">"C:\Users\andre\OneDrive - Alma Mater Studiorum Università di Bologna\University\UniBo\Machine Learning\PR1.20\data\data-train"</span>
+<div class="highlight"><pre><span></span><span class="n">scripts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">scripts_path</span><span class="p">)</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">import_data</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
@@ -7624,7 +7630,7 @@ The models used by the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="TFIDF-and-other">TFIDF and other<a class="anchor-link" href="#TFIDF-and-other">¶</a></h2><p>Once the dataset has been imported and preprocessed, a TFIDF matrix was constructed as input matrix for the models. To do this, it was convenient to write another function that could be called inside the notebook. Besides the tfidf matrix, given a specific set of parameters, the function also returned some objects required for topic modelling with the gensim package, which is the one used for some of the models.</p>
+<h2 id="TFIDF-and-other-objects">TFIDF and other objects<a class="anchor-link" href="#TFIDF-and-other-objects">¶</a></h2><p>Once the dataset has been imported and preprocessed, a TFIDF matrix was constructed as input matrix for the models. To do this, it was convenient to write another function that could be called inside the notebook. Besides the tfidf matrix, given a specific set of parameters, the function also returned some objects required for topic modelling with the gensim package, which is the one used for some of the models.</p>
 </div>
 </div>
 </div>
@@ -7638,7 +7644,7 @@ The models used by the paper are:</p>
 <span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">matutils</span>
 <span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
 
-<span class="k">def</span> <span class="nf">get_tfidf_tokendocs_corpus_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_df</span><span class="p">,</span> <span class="n">min_df</span><span class="p">,</span> <span class="n">max_features</span><span class="p">):</span> <span class="c1">#0.5, 5, 5000</span>
+<span class="k">def</span> <span class="nf">get_tfidf_tokendocs_corpus_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_df</span><span class="p">,</span> <span class="n">min_df</span><span class="p">,</span> <span class="n">max_features</span><span class="p">):</span>
     <span class="c1"># convert text into lists</span>
     <span class="n">documents</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="n">documents</span>
@@ -7659,6 +7665,9 @@ The models used by the paper are:</p>
                                             <span class="n">id2word</span><span class="o">=</span><span class="nb">dict</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
     
     <span class="k">return</span> <span class="n">tfidf_matrix</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">tokenized_docs</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span>
+
+
+<span class="n">tfidf_matrix</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">tokenized_docs</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span> <span class="o">=</span> <span class="n">get_tfidf_tokendocs_corpus_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_df</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7669,11 +7678,577 @@ The models used by the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Models-evaluation">Models evaluation<a class="anchor-link" href="#Models-evaluation">¶</a></h2>
+<h2 id="Models-evaluation">Models evaluation<a class="anchor-link" href="#Models-evaluation">¶</a></h2><p>The evaluation of the models was done by comparing Coherence, a measure of topics quality. We replicated the analysis of the paper by comparing the goodness of the models for different number of topics (5, 10, 20, 50) and different number of words (10, 100, 1000, 10000).</p>
+<p>To perform the evaluation, we chose to write functions that ran the models different times for the specified parameters.</p>
 </div>
 </div>
 </div>
-</div></section></section>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tfidf_corpus_dictionary</span> <span class="kn">import</span> <span class="n">get_tfidf_tokendocs_corpus_dict</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">NMF</span><span class="p">,</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span><span class="p">,</span> <span class="n">SparseRandomProjection</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Evaluation-by-topics:">Evaluation by topics:<a class="anchor-link" href="#Evaluation-by-topics:">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">coherence_by_topics</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">tfidf</span><span class="p">):</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'LDA'</span><span class="p">,</span> <span class="s1">'LSA'</span><span class="p">,</span> <span class="s1">'NMF'</span><span class="p">,</span> <span class="s1">'PCA'</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">]</span>
+
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                <span class="n">num_topics</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span>
+                                <span class="n">alpha</span><span class="o">=</span><span class="s1">'symmetric'</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">passes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LsiModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                <span class="n">num_topics</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                                            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">,</span>
+                                            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
+                                            <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span><span class="p">:</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">NMF</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+                            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">GaussianRandomProjection</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+                                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span><span class="p">:</span>
+                <span class="c1"># Convert sparse matrix to dense. PCA cannot be done on sparse matrixes</span>
+                <span class="n">tfidf_matrix_dense</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">tfidf</span><span class="p">)</span> <span class="k">else</span> <span class="n">tfidf</span>
+
+                <span class="c1"># Convert to numpy array</span>
+                <span class="n">tfidf_matrix_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tfidf_matrix_dense</span><span class="p">)</span>
+
+                <span class="c1"># Centering</span>
+                <span class="n">mean_tfidf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tfidf_matrix_array</span><span class="p">,</span>
+                                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">centered_tfidf_matrix</span> <span class="o">=</span> <span class="n">tfidf_matrix_array</span> <span class="o">-</span> <span class="n">mean_tfidf</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+                            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">centered_tfidf_matrix</span><span class="p">)</span>
+                
+            <span class="c1"># Retrieve top words for each component</span>
+            <span class="n">topics</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">components_</span><span class="p">):</span>
+                <span class="n">component_words</span> <span class="o">=</span> <span class="p">[(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">component</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">topics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component_words</span><span class="p">)</span>
+                
+            <span class="n">topics_for_coherence</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">topic</span><span class="p">]</span>
+                                        <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">]</span>
+            
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="n">topics_for_coherence</span><span class="p">,</span>
+                                            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                            <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            
+            <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
+    
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">coherence</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">coherence</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Evaluation-by-words:">Evaluation by words:<a class="anchor-link" href="#Evaluation-by-words:">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">coherence_by_words</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'LDA'</span><span class="p">,</span> <span class="s1">'LSA'</span><span class="p">,</span> <span class="s1">'NMF'</span><span class="p">,</span> <span class="s1">'PCA'</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">]</span>
+
+    <span class="n">documents</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">documents</span>
+
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="c1"># TF-IDF Vectorization</span>
+        <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_df</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">min_df</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                    <span class="n">norm</span> <span class="o">=</span> <span class="s1">'l2'</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+        <span class="n">feature_names</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+
+        <span class="c1"># this is a list of documents with tokens</span>
+        <span class="c1"># it's needed for the coherence function</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+        
+        <span class="c1"># Convert TF-IDF matrix to Gensim corpus</span>
+        <span class="n">corpus</span> <span class="o">=</span> <span class="n">matutils</span><span class="o">.</span><span class="n">Sparse2Corpus</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span>
+        <span class="c1"># Convert the document-term matrix to a gensim Dictionary</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="o">.</span><span class="n">from_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span>
+                                                <span class="n">id2word</span><span class="o">=</span><span class="nb">dict</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+                                                <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span>
+                                                <span class="n">vectorizer</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        
+        <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+                                <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                <span class="n">num_topics</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                <span class="n">alpha</span><span class="o">=</span><span class="s1">'symmetric'</span><span class="p">,</span>
+                                <span class="n">eta</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">passes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">LsiModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span>
+                                <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                                            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">,</span>
+                                            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
+                                            <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span><span class="p">:</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">NMF</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">max_iter</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">GaussianRandomProjection</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span><span class="p">:</span>
+                <span class="c1"># Convert sparse matrix to dense. PCA cannot be done on sparse matrixes</span>
+                <span class="n">tfidf_matrix_dense</span> <span class="o">=</span> <span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+                                        <span class="k">if</span> <span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+                                        <span class="k">else</span> <span class="n">tfidf_matrix</span>
+
+                <span class="c1"># Convert to numpy array</span>
+                <span class="n">tfidf_matrix_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tfidf_matrix_dense</span><span class="p">)</span>
+
+                <span class="c1"># Centering with respect to the columns</span>
+                <span class="n">mean_tfidf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tfidf_matrix_array</span><span class="p">,</span>
+                                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">centered_tfidf_matrix</span> <span class="o">=</span> <span class="n">tfidf_matrix_array</span> <span class="o">-</span> <span class="n">mean_tfidf</span>
+                
+                <span class="n">model</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">centered_tfidf_matrix</span><span class="p">)</span>
+                
+            <span class="c1"># Retrieve top words for each component</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">components_</span><span class="p">):</span>
+                <span class="n">component_words</span> <span class="o">=</span> <span class="p">[(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">component</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component_words</span><span class="p">)</span>
+                
+            <span class="n">topics_for_coherence</span> <span class="o">=</span> <span class="p">[[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">component</span><span class="p">]</span>
+                                        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+            
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="n">topics_for_coherence</span><span class="p">,</span>
+                                            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
+                                            <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                            <span class="n">coherence</span><span class="o">=</span><span class="s1">'c_v'</span><span class="p">)</span><span class="o">.</span><span class="n">get_coherence</span><span class="p">()</span>
+            <span class="n">coherence_value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            
+            <span class="n">coherence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherence_value</span><span class="p">)</span>
+    
+    <span class="n">coherence</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">coherence</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">coherence</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Storing-results">Storing results<a class="anchor-link" href="#Storing-results">¶</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_by_topics</span> <span class="kn">import</span> <span class="n">coherence_by_topics</span>
+<span class="kn">from</span> <span class="nn">coherence_by_words</span> <span class="kn">import</span> <span class="n">coherence_by_words</span>
+
+<span class="n">evaluation_by_topics</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">n_topics</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
+    <span class="n">metrics_words</span> <span class="o">=</span> <span class="n">coherence_by_topics</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n_topics</span><span class="p">,</span>
+                                        <span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+                                        <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                        <span class="n">texts</span><span class="o">=</span><span class="n">tokenized_docs</span><span class="p">,</span>
+                                        <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
+                                        <span class="n">tfidf</span><span class="o">=</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+    
+    <span class="n">evaluation_by_topics</span><span class="p">[</span><span class="n">n_topics</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_words</span>
+
+<span class="n">evaluation_by_words</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">n_words</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">metrics_words</span> <span class="o">=</span> <span class="n">coherence_by_words</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n_words</span><span class="p">)</span>
+    <span class="n">evaluation_by_words</span><span class="p">[</span><span class="n">n_words</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_words</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Summary-tables">Summary tables<a class="anchor-link" href="#Summary-tables">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="n">evaluation</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="c1"># Specify the results folder</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="sa">R</span><span class="s2">"results"</span>
+    <span class="n">results_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+
+    <span class="c1"># Create individual DataFrames for each specific number</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">dfs</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Model'</span><span class="p">,</span> <span class="s1">'Coherence'</span><span class="p">])</span>
+
+    <span class="c1"># Save each DataFrame as a PNG file with a title in the specified folder</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># Adjust the figure size</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>  <span class="c1"># Turn off the axis</span>
+
+        <span class="c1"># Set the width of the columns</span>
+        <span class="n">col_width</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">cell_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>  <span class="c1"># Include column names as the first row</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">cellText</span><span class="o">=</span><span class="n">cell_data</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">cellLoc</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">colLabels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="s1">'open'</span><span class="p">)</span>
+
+        <span class="c1"># Make column labels bold</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">get_celld</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">set_text_props</span><span class="p">(</span><span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+
+        <span class="c1"># Adjust column width</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">auto_set_column_width</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Adjust the position of the table within the figure</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>  <span class="c1"># Adjust font size</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Scale the table</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Coherence with </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>  <span class="c1"># Add a title</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'table_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">.png'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Adjust padding</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Close the figure to avoid overlapping when saving multiple files</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+<p><img alt="alt text" src="results/table_5_topics.png"/>
+<img alt="alt text" src="results/table_10_topics.png"/>
+<img alt="alt text" src="results/table_20_topics.png"/>
+<img alt="alt text" src="results/table_50_topics.png"/></p>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h4><div class="highlight"><pre><span></span><span class="n">tables</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+<p><img alt="alt text" src="results/table_10_words.png"/>
+<img alt="alt text" src="results/table_100_words.png"/>
+<img alt="alt text" src="results/table_1000_words.png"/>
+<img alt="alt text" src="results/table_10000_words.png"/></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Summary-barplots">Summary barplots<a class="anchor-link" href="#Summary-barplots">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plots</span><span class="p">(</span><span class="n">evaluation</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">model_names</span><span class="p">,</span> <span class="n">coherence_values</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">metrics</span><span class="p">)</span>
+
+        <span class="c1"># Create a DataFrame for easy plotting with Seaborn</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Model'</span><span class="p">:</span> <span class="n">model_names</span><span class="p">,</span> <span class="s1">'Coherence Value'</span><span class="p">:</span> <span class="n">coherence_values</span><span class="p">}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        
+        <span class="c1"># Use Seaborn's barplot with the hue parameter</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Model'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Coherence Value'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">'Model'</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Model'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Coherence Value'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Coherence Evaluation for </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        
+        <span class="n">figures_folder</span> <span class="o">=</span> <span class="sa">R</span><span class="s1">'~\path\figures'</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">figures_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'coherence_evaluation_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="By-topics">By topics<a class="anchor-link" href="#By-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_topics</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+<p><img alt="alt text" src="figures/coherence_evaluation_5_topics.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_10_topics.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_20_topics.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_50_topics.png"/></p>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="By-words">By words<a class="anchor-link" href="#By-words">¶</a></h3><div class="highlight"><pre><span></span><span class="n">plots</span><span class="p">(</span><span class="n">evaluation_by_words</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+<p><img alt="alt text" src="figures/coherence_evaluation_10_words.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_100_words.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_1000_words.png"/>
+<img alt="alt text" src="figures/coherence_evaluation_10000_words.png"/></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Model-results">Model results<a class="anchor-link" href="#Model-results">¶</a></h2><p>In this section we show the results of the various models with 5 topics and 1000 words.
+In particular, we print the top 15 words for each topic identified by the model.</p>
+<p>Another function has been written to show the results based on the model that was stored</p>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Display-topics">Display topics<a class="anchor-link" href="#Display-topics">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display_topics</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
+        
+        <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">print_topics</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+            <span class="n">topic_index</span><span class="p">,</span> <span class="n">words</span> <span class="o">=</span> <span class="n">topic</span>
+            <span class="n">topic_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'"'</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" + "</span><span class="p">)]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Topic </span><span class="si">{</span><span class="n">topic_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">topic_words</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'NMF'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'PCA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'RP'</span><span class="p">:</span>
+        
+        <span class="k">for</span> <span class="n">topic_index</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">components_</span><span class="p">):</span>
+            <span class="n">component_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature_names</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Topic </span><span class="si">{</span><span class="n">topic_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">component_words</span><span class="p">[:</span><span class="mi">15</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="LDA-Model">LDA Model<a class="anchor-link" href="#LDA-Model">¶</a></h3><div class="highlight"><pre><span></span><span class="n">lda_model</span> <span class="o">=</span> <span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                     <span class="n">alpha</span><span class="o">=</span><span class="s1">'symmetric'</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">passes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">display_topics</span><span class="p">(</span><span class="s1">'LDA'</span><span class="p">,</span> <span class="n">lda_model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Topic 1: email, window, system, file, program, drive, distribution, computer, work, version, card, help, sale, problem, usa</p>
+<p>Topic 2: israel, israeli, jew, game, team, arab, jewish, player, year, play, win, hockey, fan, soldier, season</p>
+<p>Topic 3: government, gun, state, law, clinton, president, drug, child, american, kill, tax, weapon, year, public, country</p>
+<p>Topic 4: armenian, turkish, armenia, turk, greek, turkey, russian, los, gary, angeles, muslim, ca, nasa, april, orbit</p>
+<p>Topic 5: god, christian, jesus, believe, church, life, bible, mean, year, point, work, writes, study, religion, world</p>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="LSA-model">LSA model<a class="anchor-link" href="#LSA-model">¶</a></h3><div class="highlight"><pre><span></span><span class="n">lsi_model</span> <span class="o">=</span> <span class="n">LsiModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">display_topics</span><span class="p">(</span><span class="s1">'LSA'</span><span class="p">,</span> <span class="n">lsi_model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Topic 1: system, work, year, problem, distribution, window, god, computer, drive, run, file, state, car, world, help</p>
+<p>Topic 2: window, god, file, card, driver, drive, christian, program, jesus, believe, system, email, disk, video, problem</p>
+<p>Topic 3: game, team, god, player, win, play, year, season, hockey, christian, jesus, baseball, score, fan, file</p>
+<p>Topic 4: window, god, file, key, chip, car, game, clipper, encryption, government, team, christian, jesus, win, program</p>
+<p>Topic 5: drive, key, car, file, chip, clipper, encryption, window, god, card, scsi, sale, government, program, hard</p>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="NMF-Model">NMF Model<a class="anchor-link" href="#NMF-Model">¶</a></h3><div class="highlight"><pre><span></span><span class="n">nmf_model</span> <span class="o">=</span> <span class="n">NMF</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+
+<span class="n">display_topics</span><span class="p">(</span><span class="s1">'NMF'</span><span class="p">,</span> <span class="n">nmf_model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Topic 1: key, government, state, car, year, gun, chip, distribution, system, law, work, writes, space, clipper, post</p>
+<p>Topic 2: window, file, program, run, version, help, problem, application, image, graphic, email, driver, server, manager, display</p>
+<p>Topic 3: game, team, win, player, play, year, season, hockey, score, baseball, fan, nhl, league, playoff, run</p>
+<p>Topic 4: god, christian, jesus, believe, bible, christ, faith, church, atheist, life, religion, belief, truth, sin, christianity</p>
+<p>Topic 5: drive, card, sale, scsi, mb, disk, driver, monitor, mac, video, system, problem, hard, controller, work</p>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="PCA-Model">PCA Model<a class="anchor-link" href="#PCA-Model">¶</a></h3><div class="highlight"><pre><span></span><span class="n">tfidf_matrix_dense</span> <span class="o">=</span> <span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span> <span class="k">if</span> <span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span> <span class="k">else</span> <span class="n">tfidf_matrix</span>
+
+<span class="c1"># Convert to numpy array</span>
+<span class="n">tfidf_matrix_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tfidf_matrix_dense</span><span class="p">)</span>
+
+<span class="c1"># Centering</span>
+<span class="n">mean_tfidf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tfidf_matrix_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Calculate the mean of each column</span>
+<span class="n">centered_tfidf_matrix</span> <span class="o">=</span> <span class="n">tfidf_matrix_array</span> <span class="o">-</span> <span class="n">mean_tfidf</span>
+
+<span class="n">pca_model</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">centered_tfidf_matrix</span><span class="p">)</span>
+
+<span class="n">display_topics</span><span class="p">(</span><span class="s1">'PCA'</span><span class="p">,</span> <span class="n">pca_model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Topic 1: god, christian, jesus, believe, year, law, bible, team, life, jew, church, game, religion, christ, faith</p>
+<p>Topic 2: game, team, player, win, play, year, season, hockey, score, baseball, fan, nhl, playoff, league, toronto</p>
+<p>Topic 3: window, god, file, game, team, jesus, christian, win, program, bible, run, driver, player, play, version</p>
+<p>Topic 4: key, file, chip, window, clipper, encryption, government, program, algorithm, team, public, security, game, phone, secret</p>
+<p>Topic 5: key, god, chip, game, card, drive, clipper, scsi, encryption, system, team, mb, jesus, disk, bit</p>
+</div>
+</div>
+</div>
+</div></div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="RP-Model">RP Model<a class="anchor-link" href="#RP-Model">¶</a></h3><div class="highlight"><pre><span></span><span class="n">rp_model</span> <span class="o">=</span> <span class="n">GaussianRandomProjection</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="p">)</span>
+
+<span class="n">display_topics</span><span class="p">(</span><span class="s1">'RP'</span><span class="p">,</span> <span class="n">rp_model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Topic 1: money, record, extra, company, president, defense, stephanopoulos, similar, st, commit, class, atheist, gm, health, appear</p>
+<p>Topic 2: package, department, flame, happy, america, human, possible, available, chance, crime, request, woman, private, image, sense</p>
+<p>Topic 3: hard, size, situation, detail, reference, determine, certain, die, reach, scsi, cheap, launch, bit, research, end</p>
+<p>Topic 4: apple, tim, sometimes, tin, switch, woman, eye, inside, van, figure, child, suspect, agree, men, village</p>
+<p>Topic 5: building, help, definition, na, moon, range, mention, shoot, describe, complete, date, happen, david, follow, youve</p>
+</div>
+</div>
+</div>
+</div></div></section></section>
 </div>
 </div>
 </main>
