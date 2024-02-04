@@ -7439,8 +7439,8 @@ main {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Project-overview">Project overview<a class="anchor-link" href="#Project-overview">¶</a></h2><p>The goal of the project is to evaluate how different models perform in the task of topic modelling.
-The models used by the auuthors of the paper are:</p>
+<h2 id="Project-overview-PR1.20">Project overview PR1.20<a class="anchor-link" href="#Project-overview-PR1.20">¶</a></h2><p>The goal of the project is to evaluate how different models perform in the task of topic modelling.
+The models used by the authors of the paper are:</p>
 <ol>
 <li>Latent Dirchlet Allocation (LDA)</li>
 <li>Latent Semantic Analysis (LSA)</li>
@@ -7636,7 +7636,42 @@ The models used by the auuthors of the paper are:</p>
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_empty_docs</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Check for empty documents</span>
+    <span class="n">empty_documents</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">''</span><span class="p">]</span>
+
+    <span class="c1"># Count the number of empty documents</span>
+    <span class="n">num_empty_documents</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">empty_documents</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">num_empty_documents</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Number of empty documents: </span><span class="si">{</span><span class="n">num_empty_documents</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Indices of empty documents:"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">empty_documents</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"No empty documents found."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="highlight"><pre><span></span><span class="n">check_empty_docs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">])</span>
+</pre></div>
+<p>No empty documents found.</p>
+</div>
+</div>
+</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7690,7 +7725,9 @@ The models used by the auuthors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Models-evaluation">Models evaluation<a class="anchor-link" href="#Models-evaluation">¶</a></h2><p>The evaluation of the models was done by comparing Coherence, a measure of topics quality. We replicated the analysis of the paper by comparing the goodness of the models for different number of topics (5, 10, 20, 50) and different number of words (10, 100, 1000, 10000).</p>
+<h2 id="Models-evaluation">Models evaluation<a class="anchor-link" href="#Models-evaluation">¶</a></h2><p>The evaluation of the models was done by comparing Coherence, a measure of topics quality.</p>
+<p>Unfortunately, the paper used Precision, Recall and F-Score, but the details of how they were implemented was missing and no other resources were found, therefore the results differ from the ones of the paper.</p>
+<p>Nevvertheless, we replicated the analysis by comparing the goodness of the models for different number of topics (5, 10, 20, 50) and different number of words (10, 100, 1000, 10000).</p>
 <p>To perform the evaluation, we chose to write functions that ran the models different times for the specified parameters.</p>
 </div>
 </div>
@@ -7704,12 +7741,12 @@ The models used by the auuthors of the paper are:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tfidf_corpus_dictionary</span> <span class="kn">import</span> <span class="n">get_tfidf_tokendocs_corpus_dict</span>
 <span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">NMF</span><span class="p">,</span> <span class="n">PCA</span>
-<span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span><span class="p">,</span> <span class="n">SparseRandomProjection</span>
+<span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
 <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span>
@@ -8262,16 +8299,17 @@ In particular, we print the top 15 words for each topic identified by the model.
 </div>
 </div>
 </div>
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">¶</a></h3>
 </div>
 </div>
 </div>
-</div></div></section></section>
+</div></section></section>
 </div>
 </div>
 </main>
