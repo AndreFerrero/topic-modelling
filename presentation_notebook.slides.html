@@ -7605,7 +7605,7 @@ The models used by the authors of the paper are:</p>
                        <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'still'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'might'</span><span class="p">,</span> <span class="s1">'write'</span><span class="p">,</span>
                        <span class="s1">'never'</span><span class="p">,</span> <span class="s1">'look'</span><span class="p">,</span> <span class="s1">'sure'</span><span class="p">,</span> <span class="s1">'day'</span><span class="p">,</span> <span class="s1">'even'</span><span class="p">,</span> <span class="s1">'new'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span>
                        <span class="s1">'good'</span><span class="p">,</span> <span class="s1">'first'</span><span class="p">,</span> <span class="s1">'keep'</span><span class="p">,</span> <span class="s1">'since'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span> 
-                       <span class="s1">'long'</span><span class="p">,</span> <span class="s1">'fact'</span><span class="p">,</span> <span class="s1">'must'</span><span class="p">,</span> <span class="s1">'cant'</span><span class="p">,</span> <span class="s1">'another'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span>
+                       <span class="s1">'long'</span><span class="p">,</span> <span class="s1">'fact'</span><span class="p">,</span> <span class="s1">'must'</span><span class="p">,</span> <span class="s1">'another'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span>
                        <span class="s1">'without'</span><span class="p">,</span> <span class="s1">'csutexasedu'</span><span class="p">,</span> <span class="s1">'nntppostinghost'</span><span class="p">,</span>
                        <span class="s1">'seem'</span><span class="p">,</span> <span class="s1">'replyto'</span><span class="p">,</span> <span class="s1">'let'</span><span class="p">,</span> <span class="s1">'group'</span><span class="p">,</span> <span class="s1">'call'</span><span class="p">,</span> <span class="s1">'seem'</span><span class="p">,</span>
                        <span class="s1">'maybe'</span><span class="p">,</span><span class="s1">'shall'</span><span class="p">,</span> <span class="s1">'eg'</span><span class="p">,</span> <span class="s1">'etc'</span><span class="p">,</span> <span class="s1">'rather'</span><span class="p">,</span> <span class="s1">'either'</span><span class="p">])</span>
@@ -7738,8 +7738,7 @@ The models used by the authors of the paper are:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tfidf_corpus_dictionary</span> <span class="kn">import</span> <span class="n">get_tfidf_tokendocs_corpus_dict</span>
-<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">LdaModel</span><span class="p">,</span> <span class="n">LsiModel</span><span class="p">,</span> <span class="n">CoherenceModel</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">NMF</span><span class="p">,</span> <span class="n">PCA</span>
 <span class="kn">from</span> <span class="nn">sklearn.random_projection</span> <span class="kn">import</span> <span class="n">GaussianRandomProjection</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -7992,7 +7991,6 @@ The models used by the authors of the paper are:</p>
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">dfs</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Model'</span><span class="p">,</span> <span class="s1">'Coherence'</span><span class="p">])</span>
 
-    <span class="c1"># Save each DataFrame as a PNG file with a title in the specified folder</span>
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># Adjust the figure size</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>  <span class="c1"># Turn off the axis</span>
@@ -8060,16 +8058,17 @@ The models used by the authors of the paper are:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Summary-barplots">Summary barplots<a class="anchor-link" href="#Summary-barplots">¶</a></h3><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plots</span><span class="p">(</span><span class="n">evaluation</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">figures</span> <span class="o">=</span> <span class="sa">R</span><span class="s1">'figures'</span>
+    <span class="n">figures_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">figures</span><span class="p">)</span>
+        
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">model_names</span><span class="p">,</span> <span class="n">coherence_values</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">metrics</span><span class="p">)</span>
 
-        <span class="c1"># Create a DataFrame for easy plotting with Seaborn</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Model'</span><span class="p">:</span> <span class="n">model_names</span><span class="p">,</span> <span class="s1">'Coherence Value'</span><span class="p">:</span> <span class="n">coherence_values</span><span class="p">}</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
         
-        <span class="c1"># Use Seaborn's barplot with the hue parameter</span>
         <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Model'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Coherence Value'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">'Model'</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
         
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Model'</span><span class="p">)</span>
@@ -8077,8 +8076,7 @@ The models used by the authors of the paper are:</p>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Coherence Evaluation for </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-        
-        <span class="n">figures_folder</span> <span class="o">=</span> <span class="sa">R</span><span class="s1">'~\path\figures'</span>
+
         <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">figures_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'coherence_evaluation_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
@@ -8305,7 +8303,12 @@ In particular, we print the top 15 words for each topic identified by the model.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">¶</a></h3>
+<h3 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">¶</a></h3><ul>
+<li>As the number of topics changed, NMF proved to always have the highest coherence among all models. On the other hand, RP proved to be the worst model. The other models had comparable coherence results. An interesting note that was observed when implementing the models is that LDA is the one with the highest computing time, due to its intrisic mechanism.</li>
+<li>As the number of words increased, NMF still remained the model with the highest coherence.
+Interestingly, with 10000 words, LDA topics quality started to deteriorate, being the worst performing model.</li>
+<li>Topics interpretability is generally similar across models when they return 5 topics. The topics are generally fuzzy, which means further tuning should be done to improve the returned output, but they all seem to capture the underlying true topics (science, computers, religion, politics, miscellaneous)</li>
+</ul>
 </div>
 </div>
 </div>
