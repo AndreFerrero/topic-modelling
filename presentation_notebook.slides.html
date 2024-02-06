@@ -7847,26 +7847,27 @@ The models used by the authors of the paper are:</p>
     <span class="n">documents</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Clean_Content'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="n">documents</span>
 
+    <span class="c1"># TF-IDF Vectorization</span>
+    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_df</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">min_df</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                <span class="n">norm</span> <span class="o">=</span> <span class="s1">'l2'</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+
+    <span class="c1"># this is a list of documents with tokens</span>
+    <span class="c1"># it's needed for the coherence function</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+    
+    <span class="c1"># Convert TF-IDF matrix to Gensim corpus</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="n">matutils</span><span class="o">.</span><span class="n">Sparse2Corpus</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span>
+    <span class="c1"># Convert the document-term matrix to a gensim Dictionary</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="o">.</span><span class="n">from_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span>
+                                            <span class="n">id2word</span><span class="o">=</span><span class="nb">dict</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+                                            <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span>
+                                            <span class="n">vectorizer</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
     <span class="n">coherence</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
-        <span class="c1"># TF-IDF Vectorization</span>
-        <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_df</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">min_df</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
-                                    <span class="n">norm</span> <span class="o">=</span> <span class="s1">'l2'</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-        <span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
-        <span class="n">feature_names</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
-
-        <span class="c1"># this is a list of documents with tokens</span>
-        <span class="c1"># it's needed for the coherence function</span>
-        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
-        
-        <span class="c1"># Convert TF-IDF matrix to Gensim corpus</span>
-        <span class="n">corpus</span> <span class="o">=</span> <span class="n">matutils</span><span class="o">.</span><span class="n">Sparse2Corpus</span><span class="p">(</span><span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span>
-        <span class="c1"># Convert the document-term matrix to a gensim Dictionary</span>
-        <span class="n">dictionary</span> <span class="o">=</span> <span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="o">.</span><span class="n">from_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span>
-                                                <span class="n">id2word</span><span class="o">=</span><span class="nb">dict</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
-                                                <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span>
-                                                <span class="n">vectorizer</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
         
         <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LDA'</span> <span class="ow">or</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">'LSA'</span><span class="p">:</span>
 
@@ -7954,6 +7955,7 @@ The models used by the authors of the paper are:</p>
 <h3 id="Storing-results">Storing results<a class="anchor-link" href="#Storing-results">¶</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_by_topics</span> <span class="kn">import</span> <span class="n">coherence_by_topics</span>
 <span class="kn">from</span> <span class="nn">coherence_by_words</span> <span class="kn">import</span> <span class="n">coherence_by_words</span>
 
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
 <span class="n">evaluation_by_topics</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">for</span> <span class="n">n_topics</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
@@ -7966,6 +7968,7 @@ The models used by the authors of the paper are:</p>
     
     <span class="n">evaluation_by_topics</span><span class="p">[</span><span class="n">n_topics</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_words</span>
 
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span>
 <span class="n">evaluation_by_words</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">for</span> <span class="n">n_words</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
