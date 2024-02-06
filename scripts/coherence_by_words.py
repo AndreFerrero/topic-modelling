@@ -35,7 +35,7 @@ def coherence_by_words(df, n):
 
             if model_name == 'LDA':
                 model = LdaModel(corpus=corpus, id2word=dictionary, num_topics = 5,
-                                alpha='symmetric', eta='auto', passes=5, random_state=1)
+                                alpha='auto', eta='auto', passes=5, random_state=1)
         
             elif model_name == 'LSA':
                 model = LsiModel(corpus, id2word=dictionary, num_topics=5, random_seed=1)

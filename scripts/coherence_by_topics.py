@@ -14,7 +14,7 @@ def coherence_by_topics(n: int, corpus, dictionary, texts, feature_names, tfidf)
             
             if model_name == 'LDA':
                 model = LdaModel(corpus=corpus, id2word=dictionary, num_topics = n,
-                                alpha='symmetric', eta='auto', passes=5, random_state=1)
+                                alpha='auto', eta='auto', passes=5, random_state=1)
         
             elif model_name == 'LSA':
                 model = LsiModel(corpus, id2word=dictionary, num_topics=n, random_seed=1)
