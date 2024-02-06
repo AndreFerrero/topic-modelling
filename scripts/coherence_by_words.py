@@ -15,21 +15,22 @@ def coherence_by_words(df, n):
 
     coherence = []
 
-    for model_name in models:
-        # TF-IDF Vectorization
-        vectorizer = TfidfVectorizer(max_df = 0.5, min_df = 5, norm = 'l2', max_features=n)
-        tfidf_matrix = vectorizer.fit_transform(documents)
-        feature_names = vectorizer.get_feature_names_out()
+    # TF-IDF Vectorization
+    vectorizer = TfidfVectorizer(max_df = 0.5, min_df = 5, norm = 'l2', max_features=n)
+    tfidf_matrix = vectorizer.fit_transform(documents)
+    feature_names = vectorizer.get_feature_names_out()
 
-        # this is a list of documents with tokens
-        # it's needed for the coherence function
-        texts = [word_tokenize(document) for document in documents]
+    # this is a list of documents with tokens
+    # it's needed for the coherence function
+    texts = [word_tokenize(document) for document in documents]
+    
+    # Convert TF-IDF matrix to Gensim corpus
+    corpus = matutils.Sparse2Corpus(tfidf_matrix.transpose())
+    # Convert the document-term matrix to a gensim Dictionary
+    dictionary = corpora.Dictionary.from_corpus(corpus,
+                                            id2word=dict((id, word) for word, id in vectorizer.vocabulary_.items()))
         
-        # Convert TF-IDF matrix to Gensim corpus
-        corpus = matutils.Sparse2Corpus(tfidf_matrix.transpose())
-        # Convert the document-term matrix to a gensim Dictionary
-        dictionary = corpora.Dictionary.from_corpus(corpus,
-                                                id2word=dict((id, word) for word, id in vectorizer.vocabulary_.items()))
+    for model_name in models:
         
         if model_name == 'LDA' or model_name == 'LSA':
 
