@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import re, string
-from nltk.corpus import words, wordnet, stopwords
+from nltk.corpus import wordnet, stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk import pos_tag
 from nltk.tokenize import word_tokenize
@@ -11,40 +11,19 @@ def import_data(path):
     data_path = R"data\data-train"
     full_path = os.path.join(path, data_path)
     
-    folders_path_list = []
-    folders = os.listdir(full_path)
+    folders_path_list = [os.path.join(full_path, folder) for folder in os.listdir(full_path)]
     
-    for folder in folders:
-        folders_path_list.append(os.path.join(full_path, folder))
-    
-    conversion = {'religion' : [folders[i] for i in [0, 15, 19]],
-                  'computer': [folders[i] for i in range(1, 6)],
-                  'science': [folders[i] for i in range(11, 15)],
-                  'politics': [folders[i] for i in range(16, 19)],
-                  'misc': [folders[6]],
-                  'recreation': [folders[i] for i in range(7, 11)]}
-    
-    topics = folders.copy()
-    
-    for j, folder in enumerate(folders):
-        for topic, values in conversion.items():
-            
-            if folder in values:
-                topics[j] = topic
-    
-    
-    column_names = ['File_Name', 'Content', 'Folder', 'Topic']
+    column_names = ['File_Name', 'Content']
     df = pd.DataFrame(columns=column_names)
 
-    for folder, folder_path, topic in zip(folders, folders_path_list, topics):
+    for folder_path in folders_path_list:
         for file_name in os.listdir(folder_path):
             file_path = os.path.join(folder_path, file_name)
             
             with open(file_path, 'r', encoding='latin-1') as file:
                 content = file.read()
                 df = pd.concat([df,
-                                pd.DataFrame({'File_Name': [file_name], 'Content': [content],
-                                              'Folder' : [folder], 'Topic': [topic]})],
+                                pd.DataFrame({'File_Name': [file_name], 'Content': [content]})],
                                ignore_index=True)
                 
     df['Content'] = df['Content'].astype("string")
@@ -62,7 +41,7 @@ def preprocess(doc):
     doc = ' '.join(tokens)
     
     # Remove special characters, retain only words with letters
-    doc = re.sub(r'[^\w\s\']', '', doc)
+    doc = re.sub(r'[^\w\s]', '', doc)
     
     # remove digits
     doc = re.sub(r'[0-9]+', '', doc)
