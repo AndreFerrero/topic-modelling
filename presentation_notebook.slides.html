@@ -8286,10 +8286,16 @@ In particular, we print the top 15 words for each topic identified by the model.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">¶</a></h3><ul>
-<li>As the number of topics changed, NMF proved to always have the highest coherence among all models. On the other hand, RP proved to be the worst model. The other models had comparable coherence results. An interesting note that was observed when implementing the models is that LDA is the one with the highest computing time, due to its intrisic mechanism.</li>
+<li>As the number of topics changed, NMF proved to have the highest coherence among all models. On the other hand, RP proved to be the worst model. The other models had comparable coherence results.</li>
+<li>An interesting note is that LDA is the one with the highest computing time.</li>
 <li>As the number of words increased, NMF still remained the model with the highest coherence.
-Interestingly, with 10000 words, LDA topics quality started to deteriorate, being the worst performing model.</li>
-<li>Topics interpretability is generally similar across models when they return 5 topics. The topics are generally fuzzy, which means further tuning should be done to improve the returned output, but they all seem to capture the underlying true topics (science, computers, religion, politics, miscellaneous)</li>
+Interestingly, with 10000 words, LDA coherence started to deteriorate, resulting in the worst performing model.</li>
+<li>Quality of the topics returned:<ul>
+<li>LDA has the most interpretable topics</li>
+<li>RP has the least interpretable topics</li>
+<li>NMF, LSA, PCA have similar outputs, generally fuzzy</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
