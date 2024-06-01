@@ -1,5 +1,6 @@
 # Topic Modelling
 Riproduzione dell’analisi di un paper
+
 Confronto di diversi modelli di Topic Modellingal fine di valutarne la performance:
 - Latent Dirichlet Allocation
 - Latent Semantic Analysis
