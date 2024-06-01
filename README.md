@@ -1,13 +1,12 @@
 # Topic Modelling
-Riproduzione dell’analisi di un paper
+Reproduced a paper analysis evaluating the performance of different topic models:
 
-Confronto di diversi modelli di Topic Modelling al fine di valutarne la performance:
 - Latent Dirichlet Allocation
 - Latent Semantic Analysis
 - Negative Matrix Factorization
 - Random Projections
 - Principal Component Analysis
 
-Analisi svolta su dataset testuali di grande dimensione.
-
-Valuazione svolta tramite ispezione della qualità degli argomenti estratti e confronto della metrica di coerenza
+Analysis carried out on big textual data.
+        
+Evaluation conducted by visual inspection of topics quality and topics Coherence
