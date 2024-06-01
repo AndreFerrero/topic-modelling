@@ -5,6 +5,7 @@ Confronto di diversi modelli di Topic Modellingal fine di valutarne la performan
 - Latent Semantic Analysis
 - Negative Matrix Factorization
 - Random Projections
+- Principal Component Analysis
 
 Analisi svolta su dataset testuali di grande dimensione.
 
